@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação de Salas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="main-container" class="w-full max-w-md mx-auto">
+
+        <!-- TELA INICIAL (CRIAR SALA) -->
+        <div id="home-page" class="page bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar uma Nova Sala</h2>
+            <form id="createRoomForm">
+                <div class="mb-4">
+                    <label for="hostUsername" class="block text-gray-700 text-sm font-bold mb-2">Seu Nome</label>
+                    <input type="text" id="hostUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                    Criar Sala
+                </button>
+            </form>
+        </div>
+
+        <!-- TELA PARA ENTRAR EM UMA SALA EXISTENTE -->
+        <div id="join-page" class="page bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar na Sala</h2>
+            <p class="text-center text-gray-600 mb-4">Você foi convidado para uma sala. Escolha seu nome para entrar.</p>
+            <form id="joinRoomForm">
+                <div class="mb-4">
+                    <label for="joinUsername" class="block text-gray-700 text-sm font-bold mb-2">Seu Nome</label>
+                    <input type="text" id="joinUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                    Entrar na Sala
+                </button>
+                 <p id="joinError" class="text-red-500 text-xs italic text-center mt-4"></p>
+            </form>
+        </div>
+
+        <!-- TELA DA APLICAÇÃO (DENTRO DA SALA) -->
+        <div id="app-page" class="page">
+            <div class="flex flex-col lg:flex-row lg:space-x-6 space-y-6 lg:space-y-0">
+                <!-- Coluna da Esquerda: Lista de Usuários -->
+                <div class="lg:w-1/3 w-full bg-white p-6 rounded-xl shadow-lg">
+                    <div class="mb-3 border-b pb-2">
+                        <h3 class="text-lg font-semibold text-gray-700">Usuários Online</h3>
+                        <p class="text-xs text-gray-500">Sala: <strong id="roomCodeDisplay" class="cursor-pointer" title="Copiar link da sala"></strong></p>
+                    </div>
+                    <ul id="userList" class="space-y-2 mt-4">
+                        <!-- A lista de usuários será inserida aqui -->
+                    </ul>
+                </div>
+                <!-- Coluna da Direita: Conteúdo Principal -->
+                <div class="lg:w-2/3 w-full bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-800">Bem-vindo, <span id="currentUser" class="text-blue-600"></span>!</h2>
+                        <button id="logoutBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                            Sair da Sala
+                        </button>
+                    </div>
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <p class="text-gray-600 text-lg">Seu número nessa rodada é:</p>
+                        <p id="userNumber" class="text-6xl font-bold text-blue-600 my-2">--</p>
+                    </div>
+                    <hr class="my-4">
+                    <!-- Seção de Sorteio de Tema -->
+                    <div id="theme-section" class="text-center mt-6">
+                        <button id="drawThemeBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105 mb-6">
+                            Iniciar Nova Partida
+                        </button>
+                        <div id="theme-result" class="hidden">
+                             <p class="text-gray-600 text-lg">E o tema da rodada é:</p>
+                             <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-indigo-600 my-3">--</p>
+                             <div class="w-full bg-gray-200 rounded-full h-1.5 my-4">
+                                 <div class="bg-indigo-600 h-1.5 rounded-full"></div>
+                             </div>
+                             <div class="flex justify-between text-sm text-gray-500">
+                                 <div>
+                                     <span class="font-bold">1</span> - <span id="minValue"></span>
+                                 </div>
+                                 <div>
+                                     <span id="maxValue"></span> - <span class="font-bold">100</span>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Tem certeza?</h3>
+            <p class="text-gray-600 mb-6">Iniciar uma nova partida irá sortear um novo tema e novos números para todos os jogadores.</p>
+            <div class="flex justify-center space-x-4">
+                <button id="cancel-new-game" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg">
+                    Cancelar
+                </button>
+                <button id="confirm-new-game" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // Importa as funções necessárias do Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- CONFIGURAÇÃO DO FIREBASE ---
+        const firebaseConfig = {
+            // COLE SUAS CREDENCIAIS AQUI (obtidas no Passo 1 do guia)
+            apiKey: "AIzaSyCqYhcPQ-4LoXEr9WDapXh24HEd6SOb8eM",
+            authDomain: "word-game-lucky.firebaseapp.com",
+            projectId: "word-game-lucky",
+            storageBucket: "word-game-lucky.firebasestorage.app",
+            messagingSenderId: "1056109338873",
+            appId: "1:1056109338873:web:3b1a9cb6bb27dd89b9c228",
+            measurementId: "G-B3RFSKW9HV"
+        };
+
+        // Inicializa o Firebase e o Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- BANCO DE DADOS DE TEMAS ---
+        const themes = [
+            { "id": 1, "descricao": "Pessoas famosas que você gostaria de ser", "valor_minimo": "não gostaria de ser", "valor_maximo": "gostaria de ser" }, { "id": 2, "descricao": "Manga/anime famoso", "valor_minimo": "desconhecido", "valor_maximo": "famoso" }, { "id": 3, "descricao": "Coisas que te dão medo", "valor_minimo": "nem um sustinho", "valor_maximo": "morreria de medo" }, { "id": 4, "descricao": "Coisas que você gostaria de fotografar", "valor_minimo": "não vale o clique", "valor_maximo": "faria um book" }, { "id": 5, "descricao": "Coisas importantes na vida", "valor_minimo": "não é nada importantíssimo", "valor_maximo": "importantíssimo" }, { "id": 6, "descricao": "Esportes mais conhecidos", "valor_minimo": "pouca gente conhece", "valor_maximo": "muito popular" }, { "id": 7, "descricao": "Lugares onde você gostaria de morar", "valor_minimo": "não ficaria lá 5 minutos", "valor_maximo": "passaria lá a eternidade" }, { "id": 8, "descricao": "Itens do dia a dia que poderiam ser boas armas", "valor_minimo": "nem arranha", "valor_maximo": "arma forte" }, { "id": 9, "descricao": "Coisas que você ficaria olhando com admiração o dia inteiro", "valor_minimo": "nem pararia pra olhar", "valor_maximo": "ficaria olhando por horas" }, { "id": 10, "descricao": "Habilidades importantes para ser líder", "valor_minimo": "não importante", "valor_maximo": "essencial" }, { "id": 11, "descricao": "Personagens da ficção com quem você gostaria de ter um encontro", "valor_minimo": "não valeria um encontro", "valor_maximo": "provavelmente casaria" }, { "id": 12, "descricao": "Filmes conhecidos", "valor_minimo": "ninguém viu", "valor_maximo": "todo mundo assistiu" }, { "id": 13, "descricao": "Coisas nas quais você gostaria de ficar em imersão", "valor_minimo": "não, obrigada", "valor_maximo": "quero uma piscina cheia disso" }, { "id": 14, "descricao": "Sabores de sorvete que poderiam ser deliciosos", "valor_minimo": "credo, horrível!", "valor_maximo": "comeria toneladas" }, { "id": 15, "descricao": "Itens / armas que você gostaria de ter para lutar contra zumbis", "valor_minimo": "só faz cosquinha", "valor_maximo": "adiós, zumbi!" }, { "id": 16, "descricao": "Contos de fadas populares", "valor_minimo": "desconhecido", "valor_maximo": "popular" }, { "id": 17, "descricao": "Poderes especiais que você gostaria de ter", "valor_minimo": "não gostaria", "valor_maximo": "gostaria" }, { "id": 18, "descricao": "Coisas que você não conseguiria perdoar", "valor_minimo": "nada demais", "valor_maximo": "imperdoável" }, { "id": 19, "descricao": "Mentiras que você acreditaria", "valor_minimo": "não acreditaria", "valor_maximo": "acreditaria com certeza" }, { "id": 20, "descricao": "Coisas que te fazem feliz", "valor_minimo": "não te faz feliz", "valor_maximo": "felicidade pura" }, { "id": 21, "descricao": "Atletas famosos", "valor_minimo": "sei nem quem é", "valor_maximo": "grande campeão" }, { "id": 22, "descricao": "Comidas famosas", "valor_minimo": "pouca gente conhece", "valor_maximo": "encontradas em todo o mundo" }, { "id": 23, "descricao": "Personagens da ficção que você gostaria de ser", "valor_minimo": "não seria", "valor_maximo": "seria muito" }, { "id": 24, "descricao": "Celebridades de filmes e séries mais conhecidas da atualidade", "valor_minimo": "fez poucas participações", "valor_maximo": "está sempre nos lançamentos" }, { "id": 25, "descricao": "Coisas que você gostaria de ter como souvenir", "valor_minimo": "não teria isso", "valor_maximo": "teria mais de mil" }, { "id": 26, "descricao": "Coisas que cheiram bem", "valor_minimo": "cheiro normal", "valor_maximo": "faria um perfume disso" }, { "id": 27, "descricao": "Coisas difíceis de suportar", "valor_minimo": "não tão difícil", "valor_maximo": "praticamente impossível" }, { "id": 28, "descricao": "Coisas que você gostaria de fazer quando se aposentar", "valor_minimo": "não faria", "valor_maximo": "faria com toda certeza" }, { "id": 29, "descricao": "Habilidades essenciais para um comediante", "valor_minimo": "desnecessário", "valor_maximo": "obrigatório" }, { "id": 30, "descricao": "Coisas importantes para fazer sucesso nas mídias sociais", "valor_minimo": "pouco importante", "valor_maximo": "obrigatório" }, { "id": 31, "descricao": "Coisas pesadas", "valor_minimo": "levinho", "valor_maximo": "pesado" }, { "id": 32, "descricao": "Figuras históricas populares", "valor_minimo": "sei nem quem é", "valor_maximo": "figura importante" }, { "id": 33, "descricao": "Coisas que você desejava quando criança", "valor_minimo": "nem queria", "valor_maximo": "queria pra caramba" }, { "id": 34, "descricao": "Coisas úteis em uma casa", "valor_minimo": "inútil", "valor_maximo": "muito útil" }, { "id": 35, "descricao": "Coisas que fazem você se sentir amado(a)", "valor_minimo": "não faz", "valor_maximo": "puro amor" }, { "id": 36, "descricao": "Canções famosas", "valor_minimo": "ninguém conhece", "valor_maximo": "todo mundo canta junto" }, { "id": 37, "descricao": "Marcas mais valiosas", "valor_minimo": "vale pouco", "valor_maximo": "vale bilhões" }, { "id": 38, "descricao": "Coisas que você quer fazer logo quando acorda", "valor_minimo": "não quero fazer", "valor_maximo": "quero muito" }, { "id": 39, "descricao": "Sons que te fazem feliz", "valor_minimo": "irritante", "valor_maximo": "felicidade para os ouvidos" }, { "id": 40, "descricao": "Pense como um estudante do ensino médio: o que é legal?", "valor_minimo": "cringe", "valor_maximo": "super legal" }, { "id": 41, "descricao": "Presentes de aniversário mais comuns", "valor_minimo": "ninguém ganha", "valor_maximo": "todo mundo já ganhou" }, { "id": 42, "descricao": "Vilões mais temíveis", "valor_minimo": "até eu encarava", "valor_maximo": "me faz ter pesadelos" }, { "id": 43, "descricao": "Coisas fofinhas", "valor_minimo": "pouco fofinho", "valor_maximo": "um cuti-cuti" }, { "id": 44, "descricao": "Países populares para viajar", "valor_minimo": "ninguém vai", "valor_maximo": "todo mundo já foi" }, { "id": 45, "descricao": "Atividades difíceis de serem feitas sozinho(a)", "valor_minimo": "dá pra fazer", "valor_maximo": "impossível" }, { "id": 46, "descricao": "Habilidades úteis para o trabalho", "valor_minimo": "inútil", "valor_maximo": "100% útil" }, { "id": 47, "descricao": "Pense como um gato: os lugares mais confortáveis do mundo", "valor_minimo": "pouco confortável", "valor_maximo": "muito confortável" }, { "id": 48, "descricao": "Coisas que te fazem feliz quando feitas pelo seu amor", "valor_minimo": "pouco feliz", "valor_maximo": "muito feliz" }, { "id": 49, "descricao": "Animais nos quais você gostaria de montar", "valor_minimo": "não gostaria", "valor_maximo": "queria demais" }, { "id": 50, "descricao": "Pense como uma criança: o que te faz feliz?", "valor_minimo": "não te faz muito feliz", "valor_maximo": "isso sim é felicidade" }, { "id": 51, "descricao": "Tamanho de animais", "valor_minimo": "pequeno", "valor_maximo": "enorme" }, { "id": 52, "descricao": "Coisas leves", "valor_minimo": "pouco leve", "valor_maximo": "levíssimo" }, { "id": 53, "descricao": "Frases estranhas se ditas por uma criança de 5 anos", "valor_minimo": "normal", "valor_maximo": "muito estranho" }, { "id": 54, "descricao": "Algo que te surpreenderia se fosse achado embaixo de uma pedra no parque", "valor_minimo": "algo comum", "valor_maximo": "algo surpreendente" }, { "id": 55, "descricao": "Coisas confiáveis por todo o sempre", "valor_minimo": "pouco confiável", "valor_maximo": "confiável eternamente" }, { "id": 56, "descricao": "Lugares onde você vai com frequência", "valor_minimo": "vai nunca", "valor_maximo": "vai muito" }, { "id": 57, "descricao": "Drinques populares", "valor_minimo": "ninguém bebe isto", "valor_maximo": "todo mundo já bebeu" }, { "id": 58, "descricao": "Pedidos de casamento que te fariam feliz", "valor_minimo": "aquele de passar vergonha", "valor_maximo": "algo memorável" }, { "id": 59, "descricao": "Itens encontrados em um baú do tesouro que você gostaria de ter", "valor_minimo": "não gostaria", "valor_maximo": "queria muito" }, { "id": 60, "descricao": "Tipos de festivais que você gostaria de participar", "valor_minimo": "não iria nem pagando", "valor_maximo": "gastaria o salário pra ir" }, { "id": 61, "descricao": "Brinquedos mais conhecidos", "valor_minimo": "desconhecido", "valor_maximo": "toda criança já teve um" }, { "id": 62, "descricao": "Coisas que te deixam com sono", "valor_minimo": "acordadíssimo", "valor_maximo": "dormiria agora" }, { "id": 63, "descricao": "Itens úteis quando você está perdido(a) no deserto", "valor_minimo": "não serve para nada", "valor_maximo": "salvaria sua vida" }, { "id": 64, "descricao": "Momentos históricos que você visitaria se tivesse uma máquina do tempo", "valor_minimo": "sem graça, loucal", "valor_maximo": "me leve agora" }, { "id": 65, "descricao": "Pense como um vilão: qual seria o personagem heróico que você menos gostaria de enfrentar?", "valor_minimo": "derrotaria facilmente", "valor_maximo": "tenho medo até da sombra" }, { "id": 66, "descricao": "Palavras que você gostaria de ouvir", "valor_minimo": "praticamente uma ofensa", "valor_maximo": "mais que um elogio" }, { "id": 67, "descricao": "Veículos mais comuns", "valor_minimo": "nunca vi", "valor_maximo": "tem um em cada esquina" }, { "id": 68, "descricao": "Coisas que te surpreenderiam se saíssem do seu corpo", "valor_minimo": "normal", "valor_maximo": "não dá pra imaginar isso" }, { "id": 69, "descricao": "Alimentos que fazem bem", "valor_minimo": "nada saudável", "valor_maximo": "puro suco de saúde" }, { "id": 70, "descricao": "Pense como um cientista: o que você gostaria de descobrir?", "valor_minimo": "não gostaria de descobrir", "valor_maximo": "merece um Nobel" }, { "id": 71, "descricao": "Itens úteis para levar a uma ilha deserta", "valor_minimo": "inútil", "valor_maximo": "muito útil" }, { "id": 72, "descricao": "Piadas mais engraçadas", "valor_minimo": "risada ofensiva", "valor_maximo": "morreria de rir" }, { "id": 73, "descricao": "Melhores nomes de golpes especiais para gritar", "valor_minimo": "não bota medo", "valor_maximo": "isso sim impõe respeito" }, { "id": 74, "descricao": "Títulos de livros que te deixariam curioso para saber seu conteúdo", "valor_minimo": "ninguém se importaria", "valor_maximo": "vou comprar" }, { "id": 75, "descricao": "Pense como um cachorro: o que te faz feliz?", "valor_minimo": "nada AU-AUdacioso", "valor_maximo": "de balançar a cauda" }, { "id": 76, "descricao": "Melhores jogos de tabuleiro já lançados", "valor_minimo": "aquele que flopou muito", "valor_maximo": "digno de um prêmio Spiel" }, { "id": 77, "descricao": "Itens diferentões que você gostaria de ter", "valor_minimo": "nem tento", "valor_maximo": "isso é muito legal" }, { "id": 78, "descricao": "Características de pessoas que você gostaria de ter em seu círculo de amizade", "valor_minimo": "nada interessante", "valor_maximo": "BFF na certa" }, { "id": 79, "descricao": "Pense como um mago: qual seria o seu feitiço favorito?", "valor_minimo": "feitiço comum", "valor_maximo": "usaria toda hora" }, { "id": 80, "descricao": "Coisas que surpreenderiam se fossem ditas por um professor", "valor_minimo": "faz parte da aula", "valor_maximo": "por essa ninguém esperava" }, { "id": 81, "descricao": "As coisas mais bonitas do mundo", "valor_minimo": "ok", "valor_maximo": "vale de paraíso" }, { "id": 82, "descricao": "Os doces mais conhecidos", "valor_minimo": "nunca vi nem comi, só ouço falar", "valor_maximo": "vende em todo lugar" }, { "id": 83, "descricao": "Amor verdadeiro ou apenas uma aventura?", "valor_minimo": "aventura", "valor_maximo": "amor verdadeiro" }, { "id": 84, "descricao": "Pense como um herói: qual seria sua pose? (demonstre-a)", "valor_minimo": "lamentável", "valor_maximo": "épica" }, { "id": 85, "descricao": "Mundos imaginários que você gostaria de visitar", "valor_minimo": "não gostaria", "valor_maximo": "viveria lá o resto da vida" }, { "id": 86, "descricao": "Coisas populares com crianças", "valor_minimo": "pouco conhecida", "valor_maximo": "muito famosa" }, { "id": 87, "descricao": "Os nomes mais legais", "valor_minimo": "muito comum", "valor_maximo": "meu filho vai ter" }, { "id": 88, "descricao": "Coisas que você faz quando está de bom humor", "valor_minimo": "nunca faço", "valor_maximo": "faço muito" }, { "id": 89, "descricao": "Pense como um explorador: que lugares te deixam animado?", "valor_minimo": "desânimo só", "valor_maximo": "bora lá agora" }, { "id": 90, "descricao": "Habilidades úteis em relacionamentos", "valor_minimo": "inútil", "valor_maximo": "essencial" }, { "id": 91, "descricao": "Personagens mais fortes da ficção", "valor_minimo": "fraco demais", "valor_maximo": "indestrutível" }, { "id": 92, "descricao": "Lugares onde mais acontecem encontros românticos", "valor_minimo": "poucos encontros", "valor_maximo": "está acontecendo um agora" }, { "id": 93, "descricao": "Um único prato pra comer até o fim da vida", "valor_minimo": "não escolheria", "valor_maximo": "comeria agora, inclusive" }, { "id": 94, "descricao": "Pense como um adolescente: o que seria algo ruim se acontecesse durante a aula?", "valor_minimo": "nem vi", "valor_maximo": "que vergonha!" }, { "id": 95, "descricao": "Personagens fictícios com os piores temperamentos", "valor_minimo": "de boas", "valor_maximo": "explosivo" }, { "id": 96, "descricao": "Coisas que você ficaria feliz em encontrar no seu bolso ou bolsa", "valor_minimo": "nada feliz", "valor_maximo": "alegria pura" }, { "id": 97, "descricao": "Caretas engraçadas (faça-as)", "valor_minimo": "isso é ridículo", "valor_maximo": "muito engraçada!" }, { "id": 98, "descricao": "Ações e atitudes que exigem coragem", "valor_minimo": "nada corajoso", "valor_maximo": "pura coragem" }, { "id": 99, "descricao": "Se você tivesse um alter ego, o que gostaria que ele fosse?", "valor_minimo": "não gostaria", "valor_maximo": "meu tipo" }, { "id": 100, "descricao": "Habilidades importantes para um streamer", "valor_minimo": "desnecessária", "valor_maximo": "obrigatória" }
+            ];
+
+            // --- SELETORES DE ELEMENTOS ---
+            const mainContainer = document.getElementById('main-container');
+            const pages = document.querySelectorAll('.page');
+            const createRoomForm = document.getElementById('createRoomForm');
+            const joinRoomForm = document.getElementById('joinRoomForm');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const drawThemeBtn = document.getElementById('drawThemeBtn');
+            const roomCodeDisplay = document.getElementById('roomCodeDisplay');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const cancelNewGameBtn = document.getElementById('cancel-new-game');
+            const confirmNewGameBtn = document.getElementById('confirm-new-game');
+            
+            const joinErrorEl = document.getElementById('joinError');
+            const currentUserEl = document.getElementById('currentUser');
+            const userListEl = document.getElementById('userList');
+            const userNumberEl = document.getElementById('userNumber');
+            const themeResultEl = document.getElementById('theme-result');
+            const themeDrawnEl = document.getElementById('themeDrawn');
+            const minValueEl = document.getElementById('minValue');
+            const maxValueEl = document.getElementById('maxValue');
+
+            let unsubscribeFromRoom; // Variável para guardar a função de unsubscribe do onSnapshot
+
+            // --- FUNÇÕES DE LÓGICA DE SALA ---
+
+            function getRoomIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('room');
+            }
+
+            function showPage(pageId) {
+                if (pageId === 'app-page') {
+                    mainContainer.classList.remove('max-w-md');
+                    mainContainer.classList.add('max-w-5xl');
+                } else {
+                    mainContainer.classList.remove('max-w-5xl');
+                    mainContainer.classList.add('max-w-md');
+                }
+                pages.forEach(page => page.classList.toggle('active', page.id === pageId));
+            }
+
+            function generateUniqueNumber(usedNumbers) {
+                if (usedNumbers.length >= 100) return null;
+                let uniqueNumber;
+                do {
+                    uniqueNumber = Math.floor(Math.random() * 100) + 1;
+                } while (usedNumbers.includes(uniqueNumber));
+                return uniqueNumber;
+            }
+
+            async function enterRoom(roomId, username) {
+                const roomRef = doc(db, "rooms", roomId);
+                const roomSnap = await getDoc(roomRef);
+
+                if (!roomSnap.exists()) {
+                    alert("Sala não encontrada!");
+                    window.location.search = '';
+                    return;
+                }
+                
+                const room = roomSnap.data();
+
+                if (room.users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
+                    joinErrorEl.textContent = 'Este nome de usuário já está em uso na sala.';
+                    return;
+                }
+
+                const usedNumbers = room.users.map(u => u.number);
+                const newNumber = generateUniqueNumber(usedNumbers);
+                if (newNumber === null) {
+                    alert('A sala está cheia!');
+                    return;
+                }
+                
+                const newUser = { username, number: newNumber };
+                await updateDoc(roomRef, {
+                    users: arrayUnion(newUser)
+                });
+
+                sessionStorage.setItem('currentRoomId', roomId);
+                sessionStorage.setItem('currentUsername', username);
+
+                listenToRoomUpdates(roomId, username);
+                showPage('app-page');
+            }
+
+            function listenToRoomUpdates(roomId, username) {
+                const roomRef = doc(db, "rooms", roomId);
+                if (unsubscribeFromRoom) unsubscribeFromRoom(); // Cancela o listener anterior
+                
+                unsubscribeFromRoom = onSnapshot(roomRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const room = docSnap.data();
+                        const currentUserData = room.users.find(u => u.username === username);
+
+                        if (!currentUserData) {
+                            alert("Você foi removido da sala.");
+                            logout();
+                            return;
+                        }
+                        
+                        // Atualiza a UI com os novos dados
+                        currentUserEl.textContent = username;
+                        userNumberEl.textContent = currentUserData.number;
+                        roomCodeDisplay.textContent = roomId;
+                        updateUserList(room, username);
+                        updateThemeDisplay(room);
+                    } else {
+                        alert("A sala que você acessava não existe mais.");
+                        logout();
+                    }
+                });
+            }
+            
+            function updateUserList(room, currentUsername) {
+                userListEl.innerHTML = '';
+                const isHost = room.host === currentUsername;
+
+                room.users.sort((a, b) => a.username.localeCompare(b.username));
+                room.users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center bg-gray-100 p-3 rounded-lg text-gray-800 font-medium';
+                    
+                    let userLabel = document.createElement('span');
+                    userLabel.textContent = user.username;
+                    if (user.username === room.host) {
+                        userLabel.textContent += ' 👑';
+                    }
+                    li.appendChild(userLabel);
+
+                    if (isHost && user.username !== currentUsername) {
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = '✖';
+                        removeBtn.className = 'text-red-500 hover:text-red-700 font-bold ml-2';
+                        removeBtn.title = `Remover ${user.username}`;
+                        removeBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            removeUser(room.id, user);
+                        };
+                        li.appendChild(removeBtn);
+                    }
+                    userListEl.appendChild(li);
+                });
+            }
+
+            function updateThemeDisplay(room) {
+                const theme = room.currentTheme;
+                if (theme) {
+                    themeDrawnEl.textContent = theme.descricao;
+                    minValueEl.textContent = theme.valor_minimo;
+                    maxValueEl.textContent = theme.valor_maximo;
+                    themeResultEl.classList.remove('hidden');
+                } else {
+                    themeResultEl.classList.add('hidden');
+                }
+            }
+
+            async function removeUser(roomId, userToRemove) {
+                const roomRef = doc(db, "rooms", roomId);
+                await updateDoc(roomRef, {
+                    users: arrayRemove(userToRemove)
+                });
+            }
+
+            async function logout() {
+                const roomId = sessionStorage.getItem('currentRoomId');
+                const username = sessionStorage.getItem('currentUsername');
+                if (roomId && username) {
+                    const roomRef = doc(db, "rooms", roomId);
+                    const roomSnap = await getDoc(roomRef);
+                    if (roomSnap.exists()) {
+                        const room = roomSnap.data();
+                        const userToRemove = room.users.find(u => u.username === username);
+                        if (userToRemove) {
+                            await removeUser(roomId, userToRemove);
+                        }
+                    }
+                }
+                if (unsubscribeFromRoom) unsubscribeFromRoom();
+                sessionStorage.removeItem('currentRoomId');
+                sessionStorage.removeItem('currentUsername');
+                window.location.href = window.location.pathname;
+            }
+            
+            async function startNewGame() {
+                const roomId = sessionStorage.getItem('currentRoomId');
+                if (!roomId) return;
+
+                const roomRef = doc(db, "rooms", roomId);
+                const roomSnap = await getDoc(roomRef);
+
+                if (roomSnap.exists()) {
+                    const room = roomSnap.data();
+                    const drawnThemeNumber = Math.floor(Math.random() * themes.length);
+                    const newTheme = themes[drawnThemeNumber];
+
+                    let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
+                    for (let i = availableNumbers.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [availableNumbers[i], availableNumbers[j]] = [availableNumbers[j], availableNumbers[i]];
+                    }
+
+                    const updatedUsers = room.users.map(user => ({
+                        ...user,
+                        number: availableNumbers.pop()
+                    }));
+
+                    await updateDoc(roomRef, {
+                        currentTheme: newTheme,
+                        users: updatedUsers
+                    });
+                }
+            }
+
+            // --- LÓGICA DE EVENTOS ---
+            createRoomForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const hostUsername = document.getElementById('hostUsername').value.trim();
+                if (!hostUsername) return;
+
+                const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+                const roomRef = doc(db, "rooms", roomId);
+                
+                const newNumber = generateUniqueNumber([]);
+                
+                const newRoom = {
+                    id: roomId,
+                    host: hostUsername,
+                    users: [{ username: hostUsername, number: newNumber }],
+                    currentTheme: null
+                };
+                await setDoc(roomRef, newRoom);
+                
+                sessionStorage.setItem('currentRoomId', roomId);
+                sessionStorage.setItem('currentUsername', hostUsername);
+
+                const newUrl = `${window.location.pathname}?room=${roomId}`;
+                history.pushState({path: newUrl}, '', newUrl);
+
+                listenToRoomUpdates(roomId, hostUsername);
+                showPage('app-page');
+            });
+
+            joinRoomForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('joinUsername').value.trim();
+                if (!username) return;
+                const roomId = getRoomIdFromUrl();
+                enterRoom(roomId, username);
+            });
+
+            logoutBtn.addEventListener('click', logout);
+
+            drawThemeBtn.addEventListener('click', () => {
+                confirmationModal.classList.remove('hidden');
+                confirmationModal.classList.add('flex');
+            });
+
+            cancelNewGameBtn.addEventListener('click', () => {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('flex');
+            });
+
+            confirmNewGameBtn.addEventListener('click', () => {
+                startNewGame();
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('flex');
+            });
+
+            roomCodeDisplay.addEventListener('click', () => {
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    const originalText = roomCodeDisplay.textContent;
+                    roomCodeDisplay.textContent = 'Copiado!';
+                    roomCodeDisplay.classList.add('text-green-500');
+                    setTimeout(() => {
+                        roomCodeDisplay.textContent = originalText;
+                        roomCodeDisplay.classList.remove('text-green-500');
+                    }, 1500);
+                });
+            });
+            
+            // --- ROTEAMENTO INICIAL ---
+            async function init() {
+                const roomId = getRoomIdFromUrl();
+                const sessionUser = sessionStorage.getItem('currentUsername');
+                const sessionRoom = sessionStorage.getItem('currentRoomId');
+
+                if (!roomId) {
+                    showPage('home-page');
+                } else {
+                    const roomRef = doc(db, "rooms", roomId);
+                    const roomSnap = await getDoc(roomRef);
+
+                    if (!roomSnap.exists()) {
+                        alert('Sala não encontrada. Redirecionando para a página inicial.');
+                        window.location.href = window.location.pathname;
+                    } else if (sessionUser && sessionRoom === roomId) {
+                        listenToRoomUpdates(roomId, sessionUser);
+                        showPage('app-page');
+                    } else {
+                        showPage('join-page');
+                    }
+                }
+            }
+
+            init();
+    </script>
+</body>
+</html>
