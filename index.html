@@ -24,9 +24,44 @@
 
     <div id="main-container" class="w-full max-w-md mx-auto">
 
-        <!-- TELA INICIAL (CRIAR SALA) -->
+        <!-- TELA DE SELEÇÃO DE JOGO -->
+        <div id="game-selection-page" class="page bg-white p-8 rounded-xl shadow-lg text-center">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Seleção de Jogos</h2>
+            
+            <div id="play-arranjo-btn" class="cursor-pointer group">
+                <div class="bg-indigo-50 border-2 border-indigo-200 group-hover:border-indigo-400 p-6 rounded-xl transition-all">
+                    <!-- LOGO ARRANJO -->
+                    <svg class="w-24 h-24 mx-auto mb-4 text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" rx="20" fill="currentColor" fill-opacity="0.1"/>
+                        <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
+                        <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
+                        <path d="M15 85H85" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-indigo-700">Arranjo</h3>
+                    <p class="text-gray-500 mt-1">Ordene os números com base nas dicas!</p>
+                </div>
+            </div>
+            
+            <p class="text-center text-xs text-gray-400 mt-12">
+                Jogos criados por Rodrigo Lucchesi, sem fins lucrativos ou comerciais.
+            </p>
+        </div>
+
+
+        <!-- TELA INICIAL DO JOGO ARRANJO (CRIAR SALA) -->
         <div id="home-page" class="page bg-white p-8 rounded-xl shadow-lg">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar uma Nova Sala</h2>
+             <!-- LOGO ARRANJO -->
+            <svg class="w-16 h-16 mx-auto mb-4 text-indigo-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
+                <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
+            </svg>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar uma Nova Sala de Arranjo</h2>
             <form id="createRoomForm">
                 <div class="mb-4">
                     <label for="hostUsername" class="block text-gray-700 text-sm font-bold mb-2">Seu Nome</label>
@@ -40,7 +75,15 @@
 
         <!-- TELA PARA ENTRAR EM UMA SALA EXISTENTE -->
         <div id="join-page" class="page bg-white p-8 rounded-xl shadow-lg">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar na Sala</h2>
+             <!-- LOGO ARRANJO -->
+            <svg class="w-16 h-16 mx-auto mb-4 text-indigo-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
+                <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
+            </svg>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar na Sala de Arranjo</h2>
             <p class="text-center text-gray-600 mb-4">Você foi convidado para uma sala. Escolha seu nome para entrar.</p>
             <form id="joinRoomForm">
                 <div class="mb-4">
@@ -131,14 +174,12 @@
 
         // --- CONFIGURAÇÃO DO FIREBASE ---
         const firebaseConfig = {
-            // COLE SUAS CREDENCIAIS AQUI (obtidas no Passo 1 do guia)
-            apiKey: "AIzaSyCqYhcPQ-4LoXEr9WDapXh24HEd6SOb8eM",
-            authDomain: "word-game-lucky.firebaseapp.com",
-            projectId: "word-game-lucky",
-            storageBucket: "word-game-lucky.firebasestorage.app",
-            messagingSenderId: "1056109338873",
-            appId: "1:1056109338873:web:3b1a9cb6bb27dd89b9c228",
-            measurementId: "G-B3RFSKW9HV"
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_AUTH_DOMAIN",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_STORAGE_BUCKET",
+            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+            appId: "SEU_APP_ID"
         };
 
         // Inicializa o Firebase e o Firestore
@@ -153,6 +194,7 @@
             // --- SELETORES DE ELEMENTOS ---
             const mainContainer = document.getElementById('main-container');
             const pages = document.querySelectorAll('.page');
+            const playArranjoBtn = document.getElementById('play-arranjo-btn');
             const createRoomForm = document.getElementById('createRoomForm');
             const joinRoomForm = document.getElementById('joinRoomForm');
             const logoutBtn = document.getElementById('logoutBtn');
@@ -238,7 +280,7 @@
 
             function listenToRoomUpdates(roomId, username) {
                 const roomRef = doc(db, "rooms", roomId);
-                if (unsubscribeFromRoom) unsubscribeFromRoom(); // Cancela o listener anterior
+                if (unsubscribeFromRoom) unsubscribeFromRoom();
                 
                 unsubscribeFromRoom = onSnapshot(roomRef, (docSnap) => {
                     if (docSnap.exists()) {
@@ -251,7 +293,6 @@
                             return;
                         }
                         
-                        // Atualiza a UI com os novos dados
                         currentUserEl.textContent = username;
                         userNumberEl.textContent = currentUserData.number;
                         roomCodeDisplay.textContent = roomId;
@@ -365,6 +406,10 @@
             }
 
             // --- LÓGICA DE EVENTOS ---
+            playArranjoBtn.addEventListener('click', () => {
+                showPage('home-page');
+            });
+
             createRoomForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const hostUsername = document.getElementById('hostUsername').value.trim();
@@ -439,7 +484,7 @@
                 const sessionRoom = sessionStorage.getItem('currentRoomId');
 
                 if (!roomId) {
-                    showPage('home-page');
+                    showPage('game-selection-page');
                 } else {
                     const roomRef = doc(db, "rooms", roomId);
                     const roomSnap = await getDoc(roomRef);
