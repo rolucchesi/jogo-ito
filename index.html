@@ -11,6 +11,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            color: #f6f6f6;
         }
         .page {
             display: none;
@@ -18,81 +19,113 @@
         .page.active {
             display: block;
         }
+        .card {
+            background: #1a1a1b;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
+            border: 2px solid #3a3a3c;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .card-azul {
+            background: #85c0f9;
+            color: #121213;
+        }
+        .card-verde {
+            background: #538d4e;
+            color: #f6f6f6;
+        }
+        .card-amarelo {
+            background: #b59f3b;
+            color: #f6f6f6;
+        }
+        .card-neutro {
+            background: #1a1a1b;
+            color: #f6f6f6;
+        }
+        .btn-main {
+            background: #85c0f9;
+            color: #121213;
+            font-weight: bold;
+            border-radius: 0.75rem;
+            padding: 0.75rem 2rem;
+            font-size: 1.15rem;
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+            box-shadow: 0 2px 8px 0 rgba(133,192,249,0.10);
+        }
+        .btn-main:hover {
+            background: #538d4e;
+            color: #f6f6f6;
+            transform: scale(1.05);
+        }
+        .shadow-lg {
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25)!important;
+        }
+        .text-shadow {
+            text-shadow: 0 2px 8px rgba(133,192,249,0.10);
+        }
+        .bg-dark {
+            background: #213345;
+        }
+        .border-strong {
+            border: 2px solid #3a3a3c;
+        }
+        .text-success {
+            color: #538d4e;
+        }
+        .text-warning {
+            color: #b59f3b;
+        }
+        .text-error {
+            color: #d32f2f;
+        }
+        .text-secondary {
+            color: #d7dadc;
+        }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+<body class="bg-dark flex items-center justify-center min-h-screen p-4">
 
     <div id="main-container" class="w-full max-w-md mx-auto">
 
         <!-- TELA DE SELEÇÃO DE JOGO -->
-        <div id="game-selection-page" class="page bg-white p-8 rounded-xl shadow-lg text-center">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Seleção de Jogos</h2>
-            
+    <div id="game-selection-page" class="page card p-8 shadow-lg text-center">
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-8">Seleção de Jogos</h2>
+        <div class="flex flex-row justify-center items-center gap-2 mb-4">
             <div id="play-arranjo-btn" class="cursor-pointer group">
-                <div class="bg-indigo-50 border-2 border-indigo-200 group-hover:border-indigo-400 p-6 rounded-xl transition-all">
-                    <!-- LOGO ARRANJO -->
-                    <svg class="w-24 h-24 mx-auto mb-4 text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100" height="100" rx="20" fill="currentColor" fill-opacity="0.1"/>
-                        <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
-                        <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
-                        <path d="M15 85H85" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <h3 class="text-2xl font-bold text-indigo-700">Arranjo</h3>
-                    <p class="text-gray-500 mt-1">Ordene os números com base nas dicas!</p>
+                <div class="card-neutro border-strong group-hover:border-blue-400 p-6 rounded-xl transition-all">
+                    <h3 class="text-2xl font-bold text-blue-700 text-shadow">Arranjo</h3>
+                    <p class="text-gray-600 mt-1">Ordene os números com base nas dicas!</p>
                 </div>
             </div>
-            
-            <p class="text-center text-xs text-gray-400 mt-12">
-                Jogos criados por Rodrigo Lucchesi, sem fins lucrativos ou comerciais.
-            </p>
+            <button id="show-rules-btn" class="ml-2 px-4 py-2 rounded-md text-sm font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
         </div>
+        <p class="text-center text-xs text-gray-500 mt-12">
+            Jogos criados por Rodrigo Lucchesi, sem fins lucrativos ou comerciais.
+        </p>
+    </div>
 
-
-        <!-- TELA INICIAL DO JOGO ARRANJO (CRIAR SALA) -->
-        <div id="home-page" class="page bg-white p-8 rounded-xl shadow-lg">
-             <!-- LOGO ARRANJO -->
-            <svg class="w-16 h-16 mx-auto mb-4 text-indigo-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
-                <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
-            </svg>
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar uma Nova Sala de Arranjo</h2>
+    <!-- TELA INICIAL DO JOGO ARRANJO (CRIAR SALA) -->
+    <div id="home-page" class="page card p-8 shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-blue-700 text-shadow mb-6">Criar uma Nova Sala de Arranjo</h2>
             <form id="createRoomForm">
                 <div class="mb-4">
                     <label for="hostUsername" class="block text-gray-700 text-sm font-bold mb-2">Seu Nome</label>
-                    <input type="text" id="hostUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="hostUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
-                    Criar Sala
-                </button>
+                <button type="submit" class="w-full btn-main">Criar Sala</button>
             </form>
         </div>
 
         <!-- TELA PARA ENTRAR EM UMA SALA EXISTENTE -->
-        <div id="join-page" class="page bg-white p-8 rounded-xl shadow-lg">
-             <!-- LOGO ARRANJO -->
-            <svg class="w-16 h-16 mx-auto mb-4 text-indigo-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M25 75V45L32.5 52.5L40 45V75" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M60 75L60 45" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M60 60L67.5 52.5L75 60" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="67.5" cy="48.75" r="3.75" fill="currentColor"/>
-                <path d="M25 32.5L75 32.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 5"/>
-            </svg>
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar na Sala de Arranjo</h2>
+    <div id="join-page" class="page card p-8 shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-blue-700 text-shadow mb-6">Entrar na Sala de Arranjo</h2>
             <p class="text-center text-gray-600 mb-4">Você foi convidado para uma sala. Escolha seu nome para entrar.</p>
             <form id="joinRoomForm">
                 <div class="mb-4">
                     <label for="joinUsername" class="block text-gray-700 text-sm font-bold mb-2">Seu Nome</label>
-                    <input type="text" id="joinUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="joinUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
-                    Entrar na Sala
-                </button>
+                <button type="submit" class="w-full btn-main bg-green-500 hover:bg-green-600">Entrar na Sala</button>
                  <p id="joinError" class="text-red-500 text-xs italic text-center mt-4"></p>
             </form>
         </div>
@@ -101,9 +134,9 @@
         <div id="app-page" class="page">
             <div class="flex flex-col lg:flex-row lg:space-x-6 space-y-6 lg:space-y-0">
                 <!-- Coluna da Esquerda: Lista de Usuários -->
-                <div class="lg:w-1/3 w-full bg-white p-6 rounded-xl shadow-lg">
+                <div class="lg:w-1/3 w-full card p-6 shadow-lg">
                     <div class="mb-3 border-b pb-2">
-                        <h3 class="text-lg font-semibold text-gray-700">Usuários Online</h3>
+                        <h3 class="text-lg font-semibold text-blue-700">Usuários Online</h3>
                         <p class="text-xs text-gray-500">Sala: <strong id="roomCodeDisplay" class="cursor-pointer" title="Copiar link da sala"></strong></p>
                     </div>
                     <ul id="userList" class="space-y-2 mt-4">
@@ -111,29 +144,28 @@
                     </ul>
                 </div>
                 <!-- Coluna da Direita: Conteúdo Principal -->
-                <div class="lg:w-2/3 w-full bg-white p-6 rounded-xl shadow-lg">
+                <div class="lg:w-2/3 w-full card p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-bold text-gray-800">Bem-vindo, <span id="currentUser" class="text-blue-600"></span>!</h2>
-                        <button id="logoutBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
-                            Sair da Sala
-                        </button>
+                        <h2 class="text-xl font-bold text-blue-700 text-shadow">Bem-vindo, <span id="currentUser" class="text-blue-400"></span>!</h2>
+                        <div class="flex gap-2">
+                            <button id="show-rules-btn-ingame" class="px-3 py-1 rounded-md text-xs font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
+                            <button id="logoutBtn" class="btn-main bg-red-500 hover:bg-red-600">Sair da Sala</button>
+                        </div>
                     </div>
                     <hr class="my-4">
                     <div class="text-center">
                         <p class="text-gray-600 text-lg">Seu número nessa rodada é:</p>
-                        <p id="userNumber" class="text-6xl font-bold text-blue-600 my-2">--</p>
+                        <p id="userNumber" class="text-6xl font-bold text-blue-400 my-2 text-shadow">--</p>
                     </div>
                     <hr class="my-4">
                     <!-- Seção de Sorteio de Tema -->
                     <div id="theme-section" class="text-center mt-6">
-                        <button id="drawThemeBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105 mb-6">
-                            Iniciar Nova Partida
-                        </button>
+                        <button id="drawThemeBtn" class="btn-main mb-6">Iniciar Nova Partida</button>
                         <div id="theme-result" class="hidden">
                              <p class="text-gray-600 text-lg">E o tema da rodada é:</p>
-                             <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-indigo-600 my-3">--</p>
-                             <div class="w-full bg-gray-200 rounded-full h-1.5 my-4">
-                                 <div class="bg-indigo-600 h-1.5 rounded-full"></div>
+                             <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-blue-400 my-3 text-shadow">--</p>
+                             <div class="w-full bg-blue-100 rounded-full h-1.5 my-4">
+                                 <div class="bg-blue-400 h-1.5 rounded-full"></div>
                              </div>
                              <div class="flex justify-between text-sm text-gray-500">
                                  <div>
@@ -151,20 +183,51 @@
     </div>
 
     <!-- Modal de Confirmação -->
-    <div id="confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-xl shadow-lg text-center max-w-sm mx-4">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Tem certeza?</h3>
+    <div id="confirmation-modal" class="hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50">
+        <div class="card p-8 shadow-lg text-center max-w-sm mx-4">
+            <h3 class="text-xl font-bold text-blue-700 mb-4">Tem certeza?</h3>
             <p class="text-gray-600 mb-6">Iniciar uma nova partida irá sortear um novo tema e novos números para todos os jogadores.</p>
             <div class="flex justify-center space-x-4">
-                <button id="cancel-new-game" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg">
-                    Cancelar
-                </button>
-                <button id="confirm-new-game" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg">
-                    Confirmar
-                </button>
+                <button id="cancel-new-game" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
+                <button id="confirm-new-game" class="btn-main">Confirmar</button>
             </div>
         </div>
     </div>
+
+    <!-- Modal de Regras -->
+    <div id="rules-modal" class="hidden fixed inset-0 bg-dark bg-opacity-95 flex items-center justify-center z-50 p-4">
+        <div class="card p-8 shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-blue-700 text-shadow">Regras do Jogo Arranjo</h3>
+                <button id="close-rules-btn" class="text-gray-400 hover:text-blue-700 font-bold text-2xl">&times;</button>
+            </div>
+            <div class="text-gray-700 space-y-4">
+                <p><strong>Tipo de Jogo:</strong> Cooperativo, conversação e números.</p>
+                <p><strong>Visão Geral:</strong> "Arranjo" é um jogo cooperativo onde os jogadores precisam se organizar em ordem crescente, baseados em um número secreto que cada um recebe, usando apenas dicas relacionadas a um tema.</p>
+                <div>
+                    <h4 class="font-bold text-lg mb-2">Como Jogar:</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Início da Partida:</strong> O líder da sala clica em "Iniciar Nova Partida".</li>
+                        <li><strong>Tema e Número Secreto:</strong> Um tema é sorteado para todos. Cada jogador recebe um número secreto entre 1 e 100, que só ele pode ver.</li>
+                        <li><strong>Dando Dicas:</strong> Cada jogador deve pensar em uma dica relacionada ao tema que represente seu número. O número 1 corresponde ao "valor mínimo" do tema e o 100 ao "valor máximo". Por exemplo, para o tema "Tamanho de animais", o número 2 seria uma "formiga" e o 98 uma "baleia azul".</li>
+                        <li><strong>Debate e Arranjo:</strong> Os jogadores conversam e debatem sobre suas dicas para tentarem se posicionar em ordem crescente de seus números secretos. Não há turnos, a conversa é livre!</li>
+                        <li><strong>Regra de Ouro:</strong> Você **não pode** citar números, valores ou quantidades na sua dica. Apenas use exemplos e qualidades.</li>
+                        <li><strong>Vitória:</strong> O objetivo é que todos os jogadores consigam deduzir a ordem correta. O jogo é sobre a conversa e a percepção dos valores de cada um!</li>
+                    </ol>
+                </div>
+                 <div>
+                    <h4 class="font-bold text-lg mb-2">Dicas para a Conversa:</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Todas as dicas são pessoais e subjetivas (e está tudo bem).</li>
+                        <li>Vocês podem usar qualificadores (ex: "muito", "um pouco mais que o seu").</li>
+                        <li>Vocês podem mudar suas dicas a qualquer momento.</li>
+                        <li>Se não tiver uma boa dica, peça ajuda aos outros jogadores!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Firebase SDKs -->
     <script src="firebase-config.js"></script>
@@ -172,10 +235,9 @@
         // Importa as funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        // --- CONFIGURAÇÃO DO FIREBASE ---
+        
         // A constante firebaseConfig agora vem do arquivo firebase-config.js
-
+        
         // Inicializa o Firebase e o Firestore
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -197,6 +259,9 @@
             const confirmationModal = document.getElementById('confirmation-modal');
             const cancelNewGameBtn = document.getElementById('cancel-new-game');
             const confirmNewGameBtn = document.getElementById('confirm-new-game');
+            const rulesModal = document.getElementById('rules-modal');
+            const showRulesBtn = document.getElementById('show-rules-btn');
+            const closeRulesBtn = document.getElementById('close-rules-btn');
             
             const joinErrorEl = document.getElementById('joinError');
             const currentUserEl = document.getElementById('currentUser');
@@ -207,7 +272,7 @@
             const minValueEl = document.getElementById('minValue');
             const maxValueEl = document.getElementById('maxValue');
 
-            let unsubscribeFromRoom; // Variável para guardar a função de unsubscribe do onSnapshot
+            let unsubscribeFromRoom; 
 
             // --- FUNÇÕES DE LÓGICA DE SALA ---
 
@@ -469,6 +534,20 @@
                         roomCodeDisplay.classList.remove('text-green-500');
                     }, 1500);
                 });
+            });
+
+            showRulesBtn.addEventListener('click', () => {
+                rulesModal.classList.remove('hidden');
+            });
+            // In-game rules button
+            const showRulesBtnIngame = document.getElementById('show-rules-btn-ingame');
+            if (showRulesBtnIngame) {
+                showRulesBtnIngame.addEventListener('click', () => {
+                    rulesModal.classList.remove('hidden');
+                });
+            }
+            closeRulesBtn.addEventListener('click', () => {
+                rulesModal.classList.add('hidden');
             });
             
             // --- ROTEAMENTO INICIAL ---
