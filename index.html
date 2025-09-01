@@ -154,9 +154,17 @@
                 <div class="lg:w-2/3 w-full card p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-blue-700 text-shadow">Bem-vindo, <span id="currentUser" class="text-blue-400"></span>!</h2>
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 items-center">
                             <button id="show-rules-btn-ingame" class="px-3 py-1 rounded-md text-xs font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
-                            <button id="logoutBtn" class="btn-main bg-red-500 hover:bg-red-600">Sair da Sala</button>
+                            <div class="relative">
+                                <button id="settingsBtn" class="bg-gray-700 hover:bg-blue-700 text-white rounded-full p-2 flex items-center justify-center" title="Configurações">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09c.36.07.7.23 1 .51a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 8c.07.36.23.7.51 1H21a2 2 0 0 1 0 4h-.09c-.07.36-.23.7-.51 1z"></path></svg>
+                                </button>
+                                <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded shadow-lg z-50 border border-gray-300">
+                                    <button id="chooseThemeMenuBtn" class="w-full text-left px-4 py-2 hover:bg-blue-100">Escolher Tema</button>
+                                    <button id="logoutMenuBtn" class="w-full text-left px-4 py-2 hover:bg-blue-100">Sair da Sala</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr class="my-4">
@@ -167,7 +175,10 @@
                     <hr class="my-4">
                     <!-- Seção de Sorteio de Tema -->
                     <div id="theme-section" class="text-center mt-6">
-                        <button id="drawThemeBtn" class="btn-main mb-6">Iniciar Nova Partida</button>
+                        <div class="flex flex-col items-center gap-2 mb-4">
+                            <button id="drawThemeBtn" class="btn-main mb-2">Iniciar Nova Partida</button>
+                            <!-- Dropdown de tema removido, agora está no menu de configurações -->
+                        </div>
                         <div id="theme-result" class="hidden">
                              <p class="text-gray-600 text-lg">E o tema da rodada é:</p>
                              <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-blue-400 my-3 text-shadow">--</p>
@@ -184,6 +195,17 @@
                              </div>
                         </div>
                     </div>
+    <!-- Modal de Confirmação de Troca de Tema -->
+    <div id="confirm-theme-modal" class="hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50">
+        <div class="card p-8 shadow-lg text-center max-w-sm mx-4">
+            <h3 class="text-xl font-bold text-blue-700 mb-4">Confirmar troca de tema?</h3>
+            <p class="text-gray-600 mb-6">Tem certeza que deseja alterar o tema da rodada para:<br><span id="selectedThemeName" class="font-bold text-blue-700"></span>?</p>
+            <div class="flex justify-center space-x-4">
+                <button id="cancel-theme-change" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
+                <button id="confirm-theme-change" class="btn-main">Confirmar</button>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -264,6 +286,134 @@
         }
         // Carregar temas antes de iniciar o app
         await loadThemes();
+
+        // --- Dropdown de temas ---
+        const openThemeDropdownBtn = document.getElementById('openThemeDropdownBtn');
+
+        // --- Configurações ---
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsDropdown = document.getElementById('settingsDropdown');
+        const chooseThemeMenuBtn = document.getElementById('chooseThemeMenuBtn');
+        const logoutMenuBtn = document.getElementById('logoutMenuBtn');
+        let selectedThemeId = null;
+        let selectedThemeObj = null;
+        const confirmThemeModal = document.getElementById('confirm-theme-modal');
+        const selectedThemeName = document.getElementById('selectedThemeName');
+        const cancelThemeChangeBtn = document.getElementById('cancel-theme-change');
+        const confirmThemeChangeBtn = document.getElementById('confirm-theme-change');
+
+        // Dropdown de configurações
+        if (settingsBtn && settingsDropdown) {
+            settingsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                settingsDropdown.classList.toggle('hidden');
+            });
+            document.addEventListener('click', (e) => {
+                if (!settingsDropdown.contains(e.target) && e.target !== settingsBtn) {
+                    settingsDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Sair da sala pelo menu
+        if (logoutMenuBtn) {
+            logoutMenuBtn.addEventListener('click', () => {
+                settingsDropdown.classList.add('hidden');
+                logout();
+            });
+        }
+
+        // Escolher tema pelo menu
+        const themeListModalId = 'theme-list-modal';
+        let themeListModal = document.getElementById(themeListModalId);
+        if (!themeListModal) {
+            themeListModal = document.createElement('div');
+            themeListModal.id = themeListModalId;
+            themeListModal.className = 'hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50';
+            themeListModal.innerHTML = `
+                <div class="card p-8 shadow-lg text-center max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">Escolha um tema</h3>
+                    <div id="themeListContainer" class="grid grid-cols-1 gap-2 text-left"></div>
+                    <div class="flex justify-center space-x-4 mt-6">
+                        <button id="close-theme-list" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(themeListModal);
+        }
+        const themeListContainer = themeListModal.querySelector('#themeListContainer');
+        const closeThemeListBtn = themeListModal.querySelector('#close-theme-list');
+
+        function openThemeListModal() {
+            if (!themeListContainer) return;
+            themeListContainer.innerHTML = '';
+            themes.forEach(theme => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left px-4 py-2 rounded hover:bg-blue-100';
+                btn.textContent = theme.descricao;
+                btn.onclick = () => {
+                    selectedThemeId = theme.id;
+                    selectedThemeObj = theme;
+                    selectedThemeName.textContent = theme.descricao;
+                    themeListModal.classList.add('hidden');
+                    confirmThemeModal.classList.remove('hidden');
+                    confirmThemeModal.classList.add('flex');
+                };
+                themeListContainer.appendChild(btn);
+            });
+            themeListModal.classList.remove('hidden');
+            themeListModal.classList.add('flex');
+        }
+
+        if (chooseThemeMenuBtn) {
+            chooseThemeMenuBtn.addEventListener('click', () => {
+                settingsDropdown.classList.add('hidden');
+                openThemeListModal();
+            });
+        }
+
+        if (closeThemeListBtn) {
+            closeThemeListBtn.addEventListener('click', () => {
+                themeListModal.classList.add('hidden');
+                themeListModal.classList.remove('flex');
+            });
+        }
+
+        if (cancelThemeChangeBtn) {
+            cancelThemeChangeBtn.addEventListener('click', () => {
+                confirmThemeModal.classList.add('hidden');
+                confirmThemeModal.classList.remove('flex');
+            });
+        }
+
+        if (confirmThemeChangeBtn) {
+            confirmThemeChangeBtn.addEventListener('click', async () => {
+                if (!selectedThemeObj) return;
+                const roomId = sessionStorage.getItem('currentRoomId');
+                if (!roomId) return;
+                const roomRef = doc(db, "rooms", roomId);
+                const roomSnap = await getDoc(roomRef);
+                if (roomSnap.exists()) {
+                    const room = roomSnap.data();
+                    // Distribui números de 1 a 100
+                    let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
+                    for (let i = availableNumbers.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [availableNumbers[i], availableNumbers[j]] = [availableNumbers[j], availableNumbers[i]];
+                    }
+                    const updatedUsers = room.users.map(user => ({
+                        ...user,
+                        number: availableNumbers.pop()
+                    }));
+                    await updateDoc(roomRef, {
+                        currentTheme: selectedThemeObj,
+                        users: updatedUsers
+                    });
+                }
+                confirmThemeModal.classList.add('hidden');
+                confirmThemeModal.classList.remove('flex');
+            });
+        }
 
             // --- SELETORES DE ELEMENTOS ---
             const mainContainer = document.getElementById('main-container');
@@ -461,9 +611,11 @@
 
                 if (roomSnap.exists()) {
                     const room = roomSnap.data();
+                    // Sorteia um tema entre todos os disponíveis
                     const drawnThemeNumber = Math.floor(Math.random() * themes.length);
                     const newTheme = themes[drawnThemeNumber];
 
+                    // Distribui números de 1 a 100
                     let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
                     for (let i = availableNumbers.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
@@ -483,20 +635,21 @@
             }
 
             // --- LÓGICA DE EVENTOS ---
-            playArranjoBtn.addEventListener('click', () => {
+
+            if (playArranjoBtn) playArranjoBtn.addEventListener('click', () => {
                 showPage('home-page');
             });
 
-            createRoomForm.addEventListener('submit', async (e) => {
+            if (createRoomForm) createRoomForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const hostUsername = document.getElementById('hostUsername').value.trim();
                 if (!hostUsername) return;
 
                 const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
                 const roomRef = doc(db, "rooms", roomId);
-                
+    
                 const newNumber = generateUniqueNumber([]);
-                
+    
                 const newRoom = {
                     id: roomId,
                     host: hostUsername,
@@ -504,7 +657,7 @@
                     currentTheme: null
                 };
                 await setDoc(roomRef, newRoom);
-                
+    
                 sessionStorage.setItem('currentRoomId', roomId);
                 sessionStorage.setItem('currentUsername', hostUsername);
 
@@ -515,7 +668,7 @@
                 showPage('app-page');
             });
 
-            joinRoomForm.addEventListener('submit', (e) => {
+            if (joinRoomForm) joinRoomForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const username = document.getElementById('joinUsername').value.trim();
                 if (!username) return;
@@ -523,25 +676,25 @@
                 enterRoom(roomId, username);
             });
 
-            logoutBtn.addEventListener('click', logout);
+            if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
-            drawThemeBtn.addEventListener('click', () => {
+            if (drawThemeBtn) drawThemeBtn.addEventListener('click', () => {
                 confirmationModal.classList.remove('hidden');
                 confirmationModal.classList.add('flex');
             });
 
-            cancelNewGameBtn.addEventListener('click', () => {
+            if (cancelNewGameBtn) cancelNewGameBtn.addEventListener('click', () => {
                 confirmationModal.classList.add('hidden');
                 confirmationModal.classList.remove('flex');
             });
 
-            confirmNewGameBtn.addEventListener('click', () => {
+            if (confirmNewGameBtn) confirmNewGameBtn.addEventListener('click', () => {
                 startNewGame();
                 confirmationModal.classList.add('hidden');
                 confirmationModal.classList.remove('flex');
             });
 
-            roomCodeDisplay.addEventListener('click', () => {
+            if (roomCodeDisplay) roomCodeDisplay.addEventListener('click', () => {
                 const url = window.location.href;
                 navigator.clipboard.writeText(url).then(() => {
                     const originalText = roomCodeDisplay.textContent;
@@ -554,7 +707,7 @@
                 });
             });
 
-            showRulesBtn.addEventListener('click', () => {
+            if (showRulesBtn) showRulesBtn.addEventListener('click', () => {
                 rulesModal.classList.remove('hidden');
             });
             // In-game rules button
@@ -564,7 +717,7 @@
                     rulesModal.classList.remove('hidden');
                 });
             }
-            closeRulesBtn.addEventListener('click', () => {
+            if (closeRulesBtn) closeRulesBtn.addEventListener('click', () => {
                 rulesModal.classList.add('hidden');
             });
 
