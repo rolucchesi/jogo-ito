@@ -1,0 +1,105 @@
+/* ==================== BASE STYLES ==================== */
+body {
+    font-family: 'Inter', sans-serif;
+    color: #f6f6f6;
+}
+
+/* ==================== PAGE VISIBILITY ==================== */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ==================== CARD COMPONENTS ==================== */
+.card {
+    background: #1a1a1b;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25);
+    border: 2px solid #3a3a3c;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card-azul {
+    background: #85c0f9;
+    color: #121213;
+}
+
+.card-verde {
+    background: #538d4e;
+    color: #f6f6f6;
+}
+
+.card-amarelo {
+    background: #b59f3b;
+    color: #f6f6f6;
+}
+
+.card-neutro {
+    background: #1a1a1b;
+    color: #f6f6f6;
+}
+
+/* ==================== BUTTONS ==================== */
+.btn-main {
+    background: #85c0f9;
+    color: #121213;
+    font-weight: bold;
+    border-radius: 0.75rem;
+    padding: 0.75rem 2rem;
+    font-size: 1.15rem;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    box-shadow: 0 2px 8px 0 rgba(133, 192, 249, 0.1);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-main:hover {
+    background: #538d4e;
+    color: #f6f6f6;
+    transform: scale(1.05);
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.shadow-lg {
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.text-shadow {
+    text-shadow: 0 2px 8px rgba(133, 192, 249, 0.1);
+}
+
+.bg-dark {
+    background: #213345;
+}
+
+.border-strong {
+    border: 2px solid #3a3a3c;
+}
+
+/* ==================== TEXT COLOR UTILITIES ==================== */
+.text-success {
+    color: #538d4e;
+}
+
+.text-warning {
+    color: #b59f3b;
+}
+
+.text-error {
+    color: #d32f2f;
+}
+
+.text-secondary {
+    color: #d7dadc;
+}
+
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+@media (max-width: 768px) {
+    .btn-main {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+    }
+}

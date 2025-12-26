@@ -8,104 +8,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #f6f6f6;
-        }
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
-        .card {
-            background: #1a1a1b;
-            border-radius: 1.25rem;
-            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
-            border: 2px solid #3a3a3c;
-            transition: box-shadow 0.2s, border-color 0.2s;
-        }
-        .card-azul {
-            background: #85c0f9;
-            color: #121213;
-        }
-        .card-verde {
-            background: #538d4e;
-            color: #f6f6f6;
-        }
-        .card-amarelo {
-            background: #b59f3b;
-            color: #f6f6f6;
-        }
-        .card-neutro {
-            background: #1a1a1b;
-            color: #f6f6f6;
-        }
-        .btn-main {
-            background: #85c0f9;
-            color: #121213;
-            font-weight: bold;
-            border-radius: 0.75rem;
-            padding: 0.75rem 2rem;
-            font-size: 1.15rem;
-            transition: background 0.2s, color 0.2s, transform 0.1s;
-            box-shadow: 0 2px 8px 0 rgba(133,192,249,0.10);
-        }
-        .btn-main:hover {
-            background: #538d4e;
-            color: #f6f6f6;
-            transform: scale(1.05);
-        }
-        .shadow-lg {
-            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25)!important;
-        }
-        .text-shadow {
-            text-shadow: 0 2px 8px rgba(133,192,249,0.10);
-        }
-        .bg-dark {
-            background: #213345;
-        }
-        .border-strong {
-            border: 2px solid #3a3a3c;
-        }
-        .text-success {
-            color: #538d4e;
-        }
-        .text-warning {
-            color: #b59f3b;
-        }
-        .text-error {
-            color: #d32f2f;
-        }
-        .text-secondary {
-            color: #d7dadc;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-dark flex items-center justify-center min-h-screen p-4">
-
     <div id="main-container" class="w-full max-w-md mx-auto">
-
         <!-- TELA DE SELEÇÃO DE JOGO -->
-    <div id="game-selection-page" class="page card p-8 shadow-lg text-center">
-        <h2 class="text-3xl font-bold text-center text-blue-700 mb-8">Seleção de Jogos</h2>
-        <div class="flex flex-row justify-center items-center gap-2 mb-4">
-            <div id="play-arranjo-btn" class="cursor-pointer group">
-                <div class="card-neutro border-strong group-hover:border-blue-400 p-6 rounded-xl transition-all">
-                    <h3 class="text-2xl font-bold text-blue-700 text-shadow">Arranjo</h3>
-                    <p class="text-gray-600 mt-1">Ordene os números com base nas dicas!</p>
+        <div id="game-selection-page" class="page card p-8 shadow-lg text-center">
+            <h2 class="text-3xl font-bold text-center text-blue-700 mb-8">Seleção de Jogos</h2>
+            <div class="flex flex-row justify-center items-center gap-2 mb-4">
+                <div id="play-arranjo-btn" class="cursor-pointer group">
+                    <div class="card-neutro border-strong group-hover:border-blue-400 p-6 rounded-xl transition-all">
+                        <h3 class="text-2xl font-bold text-blue-700 text-shadow">Arranjo</h3>
+                        <p class="text-gray-600 mt-1">Ordene os números com base nas dicas!</p>
+                    </div>
                 </div>
+                <button id="show-rules-btn" class="ml-2 px-4 py-2 rounded-md text-sm font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
             </div>
-            <button id="show-rules-btn" class="ml-2 px-4 py-2 rounded-md text-sm font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
+            <p class="text-center text-xs text-gray-500 mt-12">
+                Jogos criados por Rodrigo Lucchesi, sem fins lucrativos ou comerciais.
+            </p>
         </div>
-        <p class="text-center text-xs text-gray-500 mt-12">
-            Jogos criados por Rodrigo Lucchesi, sem fins lucrativos ou comerciais.
-        </p>
-    </div>
 
-    <!-- TELA INICIAL DO JOGO ARRANJO (CRIAR SALA) -->
-    <div id="home-page" class="page card p-8 shadow-lg">
+        <!-- TELA INICIAL DO JOGO ARRANJO (CRIAR SALA) -->
+        <div id="home-page" class="page card p-8 shadow-lg">
             <h2 class="text-2xl font-bold text-center text-blue-700 text-shadow mb-6">Criar uma Nova Sala de Arranjo</h2>
             <form id="createRoomForm">
                 <div class="mb-4">
@@ -117,7 +42,7 @@
         </div>
 
         <!-- TELA PARA ENTRAR EM UMA SALA EXISTENTE -->
-    <div id="join-page" class="page card p-8 shadow-lg">
+        <div id="join-page" class="page card p-8 shadow-lg">
             <h2 class="text-2xl font-bold text-center text-blue-700 text-shadow mb-6">Entrar na Sala de Arranjo</h2>
             <p class="text-center text-gray-600 mb-4">Você foi convidado para uma sala. Escolha seu nome para entrar.</p>
             <form id="joinRoomForm">
@@ -126,7 +51,7 @@
                     <input type="text" id="joinUsername" placeholder="Digite seu nome de usuário" required class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
                 <button type="submit" class="w-full btn-main bg-green-500 hover:bg-green-600">Entrar na Sala</button>
-                 <p id="joinError" class="text-red-500 text-xs italic text-center mt-4"></p>
+                <p id="joinError" class="text-red-500 text-xs italic text-center mt-4"></p>
             </form>
         </div>
 
@@ -145,11 +70,11 @@
                             <button id="share-link-btn" title="Compartilhar link" class="px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold">Compartilhar</button>
                         </div>
                     </div>
-
                     <ul id="userList" class="space-y-2 mt-4">
                         <!-- A lista de usuários será inserida aqui -->
                     </ul>
                 </div>
+
                 <!-- Coluna da Direita: Conteúdo Principal -->
                 <div class="lg:w-2/3 w-full card p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
@@ -158,7 +83,10 @@
                             <button id="show-rules-btn-ingame" class="px-3 py-1 rounded-md text-xs font-semibold border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[#121213] transition">Regras</button>
                             <div class="relative">
                                 <button id="settingsBtn" class="bg-gray-700 hover:bg-blue-700 text-white rounded-full p-2 flex items-center justify-center" title="Configurações">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09c.36.07.7.23 1 .51a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 8c.07.36.23.7.51 1H21a2 2 0 0 1 0 4h-.09c-.07.36-.23.7-.51 1z"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09c.36.07.7.23 1 .51a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 8c.07.36.23.7.51 1H21a2 2 0 0 1 0 4h-.09c-.07.36-.23.7-.51 1z"></path>
+                                    </svg>
                                 </button>
                                 <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded shadow-lg z-50 border border-gray-300">
                                     <button id="chooseThemeMenuBtn" class="w-full text-left px-4 py-2 hover:bg-blue-100">Escolher Tema</button>
@@ -177,35 +105,35 @@
                     <div id="theme-section" class="text-center mt-6">
                         <div class="flex flex-col items-center gap-2 mb-4">
                             <button id="drawThemeBtn" class="btn-main mb-2">Iniciar Nova Partida</button>
-                            <!-- Dropdown de tema removido, agora está no menu de configurações -->
                         </div>
                         <div id="theme-result" class="hidden">
-                             <p class="text-gray-600 text-lg">E o tema da rodada é:</p>
-                             <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-blue-400 my-3 text-shadow">--</p>
-                             <div class="w-full bg-blue-100 rounded-full h-1.5 my-4">
-                                 <div class="bg-blue-400 h-1.5 rounded-full"></div>
-                             </div>
-                             <div class="flex justify-between text-sm text-gray-500">
-                                 <div>
-                                     <span class="font-bold">1</span> - <span id="minValue"></span>
-                                 </div>
-                                 <div>
-                                     <span id="maxValue"></span> - <span class="font-bold">100</span>
-                                 </div>
-                             </div>
+                            <p class="text-gray-600 text-lg">E o tema da rodada é:</p>
+                            <p id="themeDrawn" class="text-2xl md:text-4xl font-bold text-blue-400 my-3 text-shadow">--</p>
+                            <div class="w-full bg-blue-100 rounded-full h-1.5 my-4">
+                                <div class="bg-blue-400 h-1.5 rounded-full"></div>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-500">
+                                <div>
+                                    <span class="font-bold">1</span> - <span id="minValue"></span>
+                                </div>
+                                <div>
+                                    <span id="maxValue"></span> - <span class="font-bold">100</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-    <!-- Modal de Confirmação de Troca de Tema -->
-    <div id="confirm-theme-modal" class="hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50">
-        <div class="card p-8 shadow-lg text-center max-w-sm mx-4">
-            <h3 class="text-xl font-bold text-blue-700 mb-4">Confirmar troca de tema?</h3>
-            <p class="text-gray-600 mb-6">Tem certeza que deseja alterar o tema da rodada para:<br><span id="selectedThemeName" class="font-bold text-blue-700"></span>?</p>
-            <div class="flex justify-center space-x-4">
-                <button id="cancel-theme-change" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
-                <button id="confirm-theme-change" class="btn-main">Confirmar</button>
-            </div>
-        </div>
-    </div>
+
+                    <!-- Modal de Confirmação de Troca de Tema -->
+                    <div id="confirm-theme-modal" class="hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50">
+                        <div class="card p-8 shadow-lg text-center max-w-sm mx-4">
+                            <h3 class="text-xl font-bold text-blue-700 mb-4">Confirmar troca de tema?</h3>
+                            <p class="text-gray-600 mb-6">Tem certeza que deseja alterar o tema da rodada para:<br><span id="selectedThemeName" class="font-bold text-blue-700"></span>?</p>
+                            <div class="flex justify-center space-x-4">
+                                <button id="cancel-theme-change" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
+                                <button id="confirm-theme-change" class="btn-main">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -245,7 +173,7 @@
                         <li><strong>Vitória:</strong> O objetivo é que todos os jogadores consigam deduzir a ordem correta. O jogo é sobre a conversa e a percepção dos valores de cada um!</li>
                     </ol>
                 </div>
-                 <div>
+                <div>
                     <h4 class="font-bold text-lg mb-2">Dicas para a Conversa:</h4>
                     <ul class="list-disc list-inside space-y-2">
                         <li>Todas as dicas são pessoais e subjetivas (e está tudo bem).</li>
@@ -258,508 +186,10 @@
         </div>
     </div>
 
-
-    <!-- Firebase SDKs -->
+    <!-- Firebase Config -->
     <script src="firebase-config.js"></script>
-    <script type="module">
-        // Importa as funções necessárias do Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        
-        // A constante firebaseConfig agora vem do arquivo firebase-config.js
-        
-        // Inicializa o Firebase e o Firestore
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // --- BANCO DE DADOS DE TEMAS ---
-        let themes = [];
-        async function loadThemes() {
-            try {
-                const response = await fetch('themes.json');
-                if (!response.ok) throw new Error('Erro ao carregar temas');
-                themes = await response.json();
-            } catch (e) {
-                console.error('Erro ao carregar themes.json:', e);
-                themes = [];
-            }
-        }
-        // Carregar temas antes de iniciar o app
-        await loadThemes();
-
-        // --- Dropdown de temas ---
-        const openThemeDropdownBtn = document.getElementById('openThemeDropdownBtn');
-
-        // --- Configurações ---
-        const settingsBtn = document.getElementById('settingsBtn');
-        const settingsDropdown = document.getElementById('settingsDropdown');
-        const chooseThemeMenuBtn = document.getElementById('chooseThemeMenuBtn');
-        const logoutMenuBtn = document.getElementById('logoutMenuBtn');
-        let selectedThemeId = null;
-        let selectedThemeObj = null;
-        const confirmThemeModal = document.getElementById('confirm-theme-modal');
-        const selectedThemeName = document.getElementById('selectedThemeName');
-        const cancelThemeChangeBtn = document.getElementById('cancel-theme-change');
-        const confirmThemeChangeBtn = document.getElementById('confirm-theme-change');
-
-        // Dropdown de configurações
-        if (settingsBtn && settingsDropdown) {
-            settingsBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                settingsDropdown.classList.toggle('hidden');
-            });
-            document.addEventListener('click', (e) => {
-                if (!settingsDropdown.contains(e.target) && e.target !== settingsBtn) {
-                    settingsDropdown.classList.add('hidden');
-                }
-            });
-        }
-
-        // Sair da sala pelo menu
-        if (logoutMenuBtn) {
-            logoutMenuBtn.addEventListener('click', () => {
-                settingsDropdown.classList.add('hidden');
-                logout();
-            });
-        }
-
-        // Escolher tema pelo menu
-        const themeListModalId = 'theme-list-modal';
-        let themeListModal = document.getElementById(themeListModalId);
-        if (!themeListModal) {
-            themeListModal = document.createElement('div');
-            themeListModal.id = themeListModalId;
-            themeListModal.className = 'hidden fixed inset-0 bg-blue-900 bg-opacity-40 items-center justify-center z-50';
-            themeListModal.innerHTML = `
-                <div class="card p-8 shadow-lg text-center max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
-                    <h3 class="text-xl font-bold text-blue-700 mb-4">Escolha um tema</h3>
-                    <div id="themeListContainer" class="grid grid-cols-1 gap-2 text-left"></div>
-                    <div class="flex justify-center space-x-4 mt-6">
-                        <button id="close-theme-list" class="btn-main bg-gray-300 hover:bg-gray-400 text-blue-700">Cancelar</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(themeListModal);
-        }
-        const themeListContainer = themeListModal.querySelector('#themeListContainer');
-        const closeThemeListBtn = themeListModal.querySelector('#close-theme-list');
-
-        function openThemeListModal() {
-            if (!themeListContainer) return;
-            themeListContainer.innerHTML = '';
-            themes.forEach(theme => {
-                const btn = document.createElement('button');
-                btn.className = 'w-full text-left px-4 py-2 rounded hover:bg-blue-100';
-                btn.textContent = theme.descricao;
-                btn.onclick = () => {
-                    selectedThemeId = theme.id;
-                    selectedThemeObj = theme;
-                    selectedThemeName.textContent = theme.descricao;
-                    themeListModal.classList.add('hidden');
-                    confirmThemeModal.classList.remove('hidden');
-                    confirmThemeModal.classList.add('flex');
-                };
-                themeListContainer.appendChild(btn);
-            });
-            themeListModal.classList.remove('hidden');
-            themeListModal.classList.add('flex');
-        }
-
-        if (chooseThemeMenuBtn) {
-            chooseThemeMenuBtn.addEventListener('click', () => {
-                settingsDropdown.classList.add('hidden');
-                openThemeListModal();
-            });
-        }
-
-        if (closeThemeListBtn) {
-            closeThemeListBtn.addEventListener('click', () => {
-                themeListModal.classList.add('hidden');
-                themeListModal.classList.remove('flex');
-            });
-        }
-
-        if (cancelThemeChangeBtn) {
-            cancelThemeChangeBtn.addEventListener('click', () => {
-                confirmThemeModal.classList.add('hidden');
-                confirmThemeModal.classList.remove('flex');
-            });
-        }
-
-        if (confirmThemeChangeBtn) {
-            confirmThemeChangeBtn.addEventListener('click', async () => {
-                if (!selectedThemeObj) return;
-                const roomId = sessionStorage.getItem('currentRoomId');
-                if (!roomId) return;
-                const roomRef = doc(db, "rooms", roomId);
-                const roomSnap = await getDoc(roomRef);
-                if (roomSnap.exists()) {
-                    const room = roomSnap.data();
-                    // Distribui números de 1 a 100
-                    let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
-                    for (let i = availableNumbers.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [availableNumbers[i], availableNumbers[j]] = [availableNumbers[j], availableNumbers[i]];
-                    }
-                    const updatedUsers = room.users.map(user => ({
-                        ...user,
-                        number: availableNumbers.pop()
-                    }));
-                    await updateDoc(roomRef, {
-                        currentTheme: selectedThemeObj,
-                        users: updatedUsers
-                    });
-                }
-                confirmThemeModal.classList.add('hidden');
-                confirmThemeModal.classList.remove('flex');
-            });
-        }
-
-            // --- SELETORES DE ELEMENTOS ---
-            const mainContainer = document.getElementById('main-container');
-            const pages = document.querySelectorAll('.page');
-            const playArranjoBtn = document.getElementById('play-arranjo-btn');
-            const createRoomForm = document.getElementById('createRoomForm');
-            const joinRoomForm = document.getElementById('joinRoomForm');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const drawThemeBtn = document.getElementById('drawThemeBtn');
-            const roomCodeDisplay = document.getElementById('roomCodeDisplay');
-            const confirmationModal = document.getElementById('confirmation-modal');
-            const cancelNewGameBtn = document.getElementById('cancel-new-game');
-            const confirmNewGameBtn = document.getElementById('confirm-new-game');
-            const rulesModal = document.getElementById('rules-modal');
-            const showRulesBtn = document.getElementById('show-rules-btn');
-            const closeRulesBtn = document.getElementById('close-rules-btn');
-            
-            const joinErrorEl = document.getElementById('joinError');
-            const currentUserEl = document.getElementById('currentUser');
-            const userListEl = document.getElementById('userList');
-            const userNumberEl = document.getElementById('userNumber');
-            const themeResultEl = document.getElementById('theme-result');
-            const themeDrawnEl = document.getElementById('themeDrawn');
-            const minValueEl = document.getElementById('minValue');
-            const maxValueEl = document.getElementById('maxValue');
-
-            let unsubscribeFromRoom; 
-
-            // --- FUNÇÕES DE LÓGICA DE SALA ---
-
-            function getRoomIdFromUrl() {
-                const params = new URLSearchParams(window.location.search);
-                return params.get('room');
-            }
-
-            function showPage(pageId) {
-                if (pageId === 'app-page') {
-                    mainContainer.classList.remove('max-w-md');
-                    mainContainer.classList.add('max-w-5xl');
-                } else {
-                    mainContainer.classList.remove('max-w-5xl');
-                    mainContainer.classList.add('max-w-md');
-                }
-                pages.forEach(page => page.classList.toggle('active', page.id === pageId));
-            }
-
-            function generateUniqueNumber(usedNumbers) {
-                if (usedNumbers.length >= 100) return null;
-                let uniqueNumber;
-                do {
-                    uniqueNumber = Math.floor(Math.random() * 100) + 1;
-                } while (usedNumbers.includes(uniqueNumber));
-                return uniqueNumber;
-            }
-
-            async function enterRoom(roomId, username) {
-                const roomRef = doc(db, "rooms", roomId);
-                const roomSnap = await getDoc(roomRef);
-
-                if (!roomSnap.exists()) {
-                    alert("Sala não encontrada!");
-                    window.location.search = '';
-                    return;
-                }
-                
-                const room = roomSnap.data();
-
-                if (room.users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
-                    joinErrorEl.textContent = 'Este nome de usuário já está em uso na sala.';
-                    return;
-                }
-
-                const usedNumbers = room.users.map(u => u.number);
-                const newNumber = generateUniqueNumber(usedNumbers);
-                if (newNumber === null) {
-                    alert('A sala está cheia!');
-                    return;
-                }
-                
-                const newUser = { username, number: newNumber };
-                await updateDoc(roomRef, {
-                    users: arrayUnion(newUser)
-                });
-
-                sessionStorage.setItem('currentRoomId', roomId);
-                sessionStorage.setItem('currentUsername', username);
-
-                listenToRoomUpdates(roomId, username);
-                showPage('app-page');
-            }
-
-            function listenToRoomUpdates(roomId, username) {
-                const roomRef = doc(db, "rooms", roomId);
-                if (unsubscribeFromRoom) unsubscribeFromRoom();
-                
-                unsubscribeFromRoom = onSnapshot(roomRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const room = docSnap.data();
-                        const currentUserData = room.users.find(u => u.username === username);
-
-                        if (!currentUserData) {
-                            alert("Você foi removido da sala.");
-                            logout();
-                            return;
-                        }
-                        
-                        currentUserEl.textContent = username;
-                        userNumberEl.textContent = currentUserData.number;
-                        roomCodeDisplay.textContent = roomId;
-                        updateUserList(room, username);
-                        updateThemeDisplay(room);
-                    } else {
-                        alert("A sala que você acessava não existe mais.");
-                        logout();
-                    }
-                });
-            }
-            
-            function updateUserList(room, currentUsername) {
-                userListEl.innerHTML = '';
-                const isHost = room.host === currentUsername;
-
-                room.users.sort((a, b) => a.username.localeCompare(b.username));
-                room.users.forEach(user => {
-                    const li = document.createElement('li');
-                    li.className = 'flex justify-between items-center bg-gray-100 p-3 rounded-lg text-gray-800 font-medium';
-                    
-                    let userLabel = document.createElement('span');
-                    userLabel.textContent = user.username;
-                    if (user.username === room.host) {
-                        userLabel.textContent += ' 👑';
-                    }
-                    li.appendChild(userLabel);
-
-                    if (isHost && user.username !== currentUsername) {
-                        const removeBtn = document.createElement('button');
-                        removeBtn.textContent = '✖';
-                        removeBtn.className = 'text-red-500 hover:text-red-700 font-bold ml-2';
-                        removeBtn.title = `Remover ${user.username}`;
-                        removeBtn.onclick = (e) => {
-                            e.stopPropagation();
-                            removeUser(room.id, user);
-                        };
-                        li.appendChild(removeBtn);
-                    }
-                    userListEl.appendChild(li);
-                });
-            }
-
-            function updateThemeDisplay(room) {
-                const theme = room.currentTheme;
-                if (theme) {
-                    themeDrawnEl.textContent = theme.descricao;
-                    minValueEl.textContent = theme.valor_minimo;
-                    maxValueEl.textContent = theme.valor_maximo;
-                    themeResultEl.classList.remove('hidden');
-                } else {
-                    themeResultEl.classList.add('hidden');
-                }
-            }
-
-            async function removeUser(roomId, userToRemove) {
-                const roomRef = doc(db, "rooms", roomId);
-                await updateDoc(roomRef, {
-                    users: arrayRemove(userToRemove)
-                });
-            }
-
-            async function logout() {
-                const roomId = sessionStorage.getItem('currentRoomId');
-                const username = sessionStorage.getItem('currentUsername');
-                if (roomId && username) {
-                    const roomRef = doc(db, "rooms", roomId);
-                    const roomSnap = await getDoc(roomRef);
-                    if (roomSnap.exists()) {
-                        const room = roomSnap.data();
-                        const userToRemove = room.users.find(u => u.username === username);
-                        if (userToRemove) {
-                            await removeUser(roomId, userToRemove);
-                        }
-                    }
-                }
-                if (unsubscribeFromRoom) unsubscribeFromRoom();
-                sessionStorage.removeItem('currentRoomId');
-                sessionStorage.removeItem('currentUsername');
-                window.location.href = window.location.pathname;
-            }
-            
-            async function startNewGame() {
-                const roomId = sessionStorage.getItem('currentRoomId');
-                if (!roomId) return;
-
-                const roomRef = doc(db, "rooms", roomId);
-                const roomSnap = await getDoc(roomRef);
-
-                if (roomSnap.exists()) {
-                    const room = roomSnap.data();
-                    // Sorteia um tema entre todos os disponíveis
-                    const drawnThemeNumber = Math.floor(Math.random() * themes.length);
-                    const newTheme = themes[drawnThemeNumber];
-
-                    // Distribui números de 1 a 100
-                    let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
-                    for (let i = availableNumbers.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [availableNumbers[i], availableNumbers[j]] = [availableNumbers[j], availableNumbers[i]];
-                    }
-
-                    const updatedUsers = room.users.map(user => ({
-                        ...user,
-                        number: availableNumbers.pop()
-                    }));
-
-                    await updateDoc(roomRef, {
-                        currentTheme: newTheme,
-                        users: updatedUsers
-                    });
-                }
-            }
-
-            // --- LÓGICA DE EVENTOS ---
-
-            if (playArranjoBtn) playArranjoBtn.addEventListener('click', () => {
-                showPage('home-page');
-            });
-
-            if (createRoomForm) createRoomForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const hostUsername = document.getElementById('hostUsername').value.trim();
-                if (!hostUsername) return;
-
-                const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-                const roomRef = doc(db, "rooms", roomId);
     
-                const newNumber = generateUniqueNumber([]);
-    
-                const newRoom = {
-                    id: roomId,
-                    host: hostUsername,
-                    users: [{ username: hostUsername, number: newNumber }],
-                    currentTheme: null
-                };
-                await setDoc(roomRef, newRoom);
-    
-                sessionStorage.setItem('currentRoomId', roomId);
-                sessionStorage.setItem('currentUsername', hostUsername);
-
-                const newUrl = `${window.location.pathname}?room=${roomId}`;
-                history.pushState({path: newUrl}, '', newUrl);
-
-                listenToRoomUpdates(roomId, hostUsername);
-                showPage('app-page');
-            });
-
-            if (joinRoomForm) joinRoomForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('joinUsername').value.trim();
-                if (!username) return;
-                const roomId = getRoomIdFromUrl();
-                enterRoom(roomId, username);
-            });
-
-            if (logoutBtn) logoutBtn.addEventListener('click', logout);
-
-            if (drawThemeBtn) drawThemeBtn.addEventListener('click', () => {
-                confirmationModal.classList.remove('hidden');
-                confirmationModal.classList.add('flex');
-            });
-
-            if (cancelNewGameBtn) cancelNewGameBtn.addEventListener('click', () => {
-                confirmationModal.classList.add('hidden');
-                confirmationModal.classList.remove('flex');
-            });
-
-            if (confirmNewGameBtn) confirmNewGameBtn.addEventListener('click', () => {
-                startNewGame();
-                confirmationModal.classList.add('hidden');
-                confirmationModal.classList.remove('flex');
-            });
-
-            if (roomCodeDisplay) roomCodeDisplay.addEventListener('click', () => {
-                const url = window.location.href;
-                navigator.clipboard.writeText(url).then(() => {
-                    const originalText = roomCodeDisplay.textContent;
-                    roomCodeDisplay.textContent = 'Copiado!';
-                    roomCodeDisplay.classList.add('text-green-500');
-                    setTimeout(() => {
-                        roomCodeDisplay.textContent = originalText;
-                        roomCodeDisplay.classList.remove('text-green-500');
-                    }, 1500);
-                });
-            });
-
-            if (showRulesBtn) showRulesBtn.addEventListener('click', () => {
-                rulesModal.classList.remove('hidden');
-            });
-            // In-game rules button
-            const showRulesBtnIngame = document.getElementById('show-rules-btn-ingame');
-            if (showRulesBtnIngame) {
-                showRulesBtnIngame.addEventListener('click', () => {
-                    rulesModal.classList.remove('hidden');
-                });
-            }
-            if (closeRulesBtn) closeRulesBtn.addEventListener('click', () => {
-                rulesModal.classList.add('hidden');
-            });
-
-            // Botão de compartilhar link da sala
-            const shareLinkBtn = document.getElementById('share-link-btn');
-            if (shareLinkBtn) {
-                shareLinkBtn.addEventListener('click', () => {
-                    const url = window.location.href;
-                    navigator.clipboard.writeText(url).then(() => {
-                        shareLinkBtn.textContent = 'Link copiado!';
-                        setTimeout(() => {
-                            shareLinkBtn.textContent = 'Compartilhar';
-                        }, 1500);
-                    });
-                });
-            }
-            
-            // --- ROTEAMENTO INICIAL ---
-            async function init() {
-                const roomId = getRoomIdFromUrl();
-                const sessionUser = sessionStorage.getItem('currentUsername');
-                const sessionRoom = sessionStorage.getItem('currentRoomId');
-
-                if (!roomId) {
-                    showPage('game-selection-page');
-                } else {
-                    const roomRef = doc(db, "rooms", roomId);
-                    const roomSnap = await getDoc(roomRef);
-
-                    if (!roomSnap.exists()) {
-                        alert('Sala não encontrada. Redirecionando para a página inicial.');
-                        window.location.href = window.location.pathname;
-                    } else if (sessionUser && sessionRoom === roomId) {
-                        listenToRoomUpdates(roomId, sessionUser);
-                        showPage('app-page');
-                    } else {
-                        showPage('join-page');
-                    }
-                }
-            }
-
-            init();
-    </script>
+    <!-- Application Script -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
