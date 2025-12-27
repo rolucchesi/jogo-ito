@@ -84,6 +84,7 @@ function getThemeListModal() {
         themeListModal.className = 'hidden fixed inset-0 bg-blue-900 bg-opacity-40 flex items-center justify-center z-50';
         themeListModal.innerHTML = `
             <div class="card p-8 shadow-lg text-center max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
+                <button id="close-theme-modal-x" class="sticky top-0 float-right text-gray-400 hover:text-blue-700 font-bold text-2xl -mt-1" title="Fechar">×</button>
                 <h3 class="text-xl font-bold text-blue-700 mb-4">Escolha um tema</h3>
                 <div id="themeListContainer" class="grid grid-cols-1 gap-2 text-left"></div>
                 <div class="flex justify-center space-x-4 mt-6">
@@ -93,13 +94,26 @@ function getThemeListModal() {
         `;
         document.body.appendChild(themeListModal);
         
+        const closeBtnX = themeListModal.querySelector('#close-theme-modal-x');
         const closeBtn = themeListModal.querySelector('#close-theme-list');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                themeListModal.classList.add('hidden');
-                themeListModal.classList.remove('flex');
-            });
+        
+        const closeModal = () => {
+            themeListModal.classList.add('hidden');
+            themeListModal.classList.remove('flex');
+        };
+        
+        if (closeBtnX) {
+            closeBtnX.addEventListener('click', closeModal);
         }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        themeListModal.addEventListener('click', (e) => {
+            if (e.target === themeListModal) {
+                closeModal();
+            }
+        });
     }
     
     return themeListModal;
@@ -114,7 +128,7 @@ function openThemeListModal() {
     themeListContainer.innerHTML = '';
     themes.forEach(theme => {
         const btn = document.createElement('button');
-        btn.className = 'w-full text-left px-4 py-2 rounded hover:bg-blue-100 text-gray-800';
+        btn.className = 'w-full text-left px-4 py-2 rounded hover:bg-blue-100 theme-option';
         btn.type = 'button';
         btn.textContent = theme.descricao;
         btn.onclick = () => {
@@ -498,6 +512,14 @@ if (showRulesBtnIngame) {
 if (closeRulesBtn) {
     closeRulesBtn.addEventListener('click', () => {
         rulesModal.classList.add('hidden');
+    });
+}
+
+if (rulesModal) {
+    rulesModal.addEventListener('click', (e) => {
+        if (e.target === rulesModal) {
+            rulesModal.classList.add('hidden');
+        }
     });
 }
 

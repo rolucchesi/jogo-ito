@@ -22,6 +22,10 @@ body {
     transition: box-shadow 0.2s, border-color 0.2s;
 }
 
+.card-azul, .card-verde, .card-amarelo, .card-neutro {
+    border-radius: 1.25rem;
+}
+
 .card-azul {
     background: #85c0f9;
     color: #121213;
@@ -94,6 +98,19 @@ body {
 
 .text-secondary {
     color: #d7dadc;
+}
+
+/* ==================== THEME MODAL ==================== */
+.theme-option {
+    color: #f6f6f6;
+    font-weight: 500;
+    background: #1a1a1b;
+    transition: background 0.2s, color 0.2s;
+}
+
+.theme-option:hover {
+    background: #2a2a2b;
+    color: #439ff5;
 }
 
 /* ==================== RESPONSIVE ADJUSTMENTS ==================== */
